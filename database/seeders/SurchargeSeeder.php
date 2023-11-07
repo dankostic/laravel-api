@@ -14,15 +14,15 @@ class SurchargeSeeder extends Seeder
     {
         Surcharge::insert([
             [
-                'currencies_id' => 2,
+                'currency_id' => 2,
                 'percentage' => 7.5,
             ],
             [
-                'currencies_id' => 3,
+                'currency_id' => 3,
                 'percentage' => 5,
             ],
             [
-                'currencies_id' => 4,
+                'currency_id' => 4,
                 'percentage' => 5,
             ],
         ]);

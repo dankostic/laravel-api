@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('surcharges', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('currencies_id')->constrained();
+            $table->foreignId('currency_id')->constrained();
             $table->double('percentage');
         });
     }

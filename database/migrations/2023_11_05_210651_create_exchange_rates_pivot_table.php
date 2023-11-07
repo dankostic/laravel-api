@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('exchange_rates', function (Blueprint $table) {
-            $table->foreignId('currencies_id')->constrained();
-            $table->unsignedBigInteger('currencies_purchased_id');
+            $table->foreignId('currency_id')->constrained();
+            $table->unsignedBigInteger('currency_purchased_id');
             $table->double('rate', 12, 6);
 
-            $table->foreign('currencies_purchased_id')->references('id')->on('currencies')->onDelete('cascade');
+            $table->foreign('currency_purchased_id')->references('id')->on('currencies')->onDelete('cascade');
         });
     }
 
