@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\CalculatorInfoRequest;
+use App\Http\Requests\API\CalculatorRequest;
 use App\Interfaces\CalculatorServiceInterface;
 use App\Interfaces\CurrencyRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CalculatorController extends Controller
@@ -17,7 +18,7 @@ class CalculatorController extends Controller
     ) {
     }
 
-    public function info(Request $request): JsonResponse
+    public function info(CalculatorInfoRequest $request): JsonResponse
     {
         $currency = $this->currencyRepository->getPurchasedCurrencyById($request->id);
 
@@ -30,14 +31,14 @@ class CalculatorController extends Controller
             Response::HTTP_OK);
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(CalculatorRequest $request): JsonResponse
     {
-        $surchargeAmount = $this->calculatorService->calculate($request->amount, $this->currencyRepository->getPurchasedCurrencyById($request->selectCurrencyId));
-
         return response()->json(
             [
-                'surchargeAmount' => $surchargeAmount,
-                'selectCurrency' => $request->selectCurrencyId
+                'calculatorAmount' => $this->calculatorService->calculate(
+                    $request->amount,
+                    $this->currencyRepository->getPurchasedCurrencyById($request->selectCurrencyId)
+                ),
             ],
             Response::HTTP_OK);
     }
