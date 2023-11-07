@@ -6,5 +6,5 @@ use App\Models\Currency;
 
 interface CalculatorServiceInterface
 {
-    public function calculate(int $amount, Currency $currency): float;
+    public function calculate(float $amount, Currency $currency): float;
 }

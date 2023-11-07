@@ -87,10 +87,15 @@
             processData: false,
             contentType: false,
             success:function(data, textStatus, jqXHR){
-                $("#exchange-response").text(data.surchargeAmount + ' (USD)');
+                if (data.calculatorAmount) {
+                    $("#exchange-response").text(data.calculatorAmount + ' (USD)');
+                }
+                else {
+                    alert(data.data.amount);
+                }
+
             },
             error: function(jqXHR, textStatus, errorThrown){
-                //if fails
             }
         });
     });

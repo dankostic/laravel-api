@@ -18,11 +18,11 @@ class CalculatorService implements CalculatorServiceInterface
     }
 
     /**
-     * @param int $amount
+     * @param float $amount
      * @param Currency $currency
      * @return float
      */
-    public function calculate(int $amount, Currency $currency): float
+    public function calculate(float $amount, Currency $currency): float
     {
         $exchangeRateAmount = $this->exchangeRateService->calculate(
             $amount,
