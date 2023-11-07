@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('currencies_id')->constrained();
-            $table->unsignedBigInteger('currencies_purchased_id');
+            $table->foreignId('currency_id')->constrained();
+            $table->unsignedBigInteger('currency_purchased_id');
             $table->foreignId('surcharges_id')->constrained();
             $table->double('amount_of_surcharge', 12, 6);
             $table->double('amount_of_currency_purchased', 12, 6);
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->double('discount_amount');
             $table->date('created');
 
-            $table->foreign('currencies_purchased_id')->references('currencies_purchased_id')->on('exchange_rates')->onDelete('cascade');
+            $table->foreign('currency_purchased_id')->references('currency_purchased_id')->on('exchange_rates')->onDelete('cascade');
         });
     }
 

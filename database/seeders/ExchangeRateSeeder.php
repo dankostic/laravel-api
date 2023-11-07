@@ -15,18 +15,18 @@ class ExchangeRateSeeder extends Seeder
     {
         ExchangeRate::insert([
             [
-                'currencies_id' => 1,
-                'currencies_purchased_id' => 2,
+                'currency_id' => 1,
+                'currency_purchased_id' => 2,
                 'rate' => 107.17,
             ],
             [
-                'currencies_id' => 1,
-                'currencies_purchased_id' => 3,
+                'currency_id' => 1,
+                'currency_purchased_id' => 3,
                 'rate' => 0.711178,
             ],
             [
-                'currencies_id' => 1,
-                'currencies_purchased_id' => 4,
+                'currency_id' => 1,
+                'currency_purchased_id' => 4,
                 'rate' => 0.884872,
             ],
         ]);
