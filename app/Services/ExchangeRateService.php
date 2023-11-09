@@ -17,6 +17,6 @@ class ExchangeRateService implements CalculatorServiceInterface
      */
     public function calculate(float $amount, Currency $currency): float
     {
-        return round(self::USD_EXCHANGE_RATE * $amount/$currency->exchangeRate->rate, 2);
+        return round(self::USD_EXCHANGE_RATE * $amount/$currency->exchangeRate->rate, 6);
     }
 }

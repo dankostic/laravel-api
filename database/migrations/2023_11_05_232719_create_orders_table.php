@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('currency_id')->constrained();
             $table->unsignedBigInteger('currency_purchased_id');
             $table->foreignId('surcharges_id')->constrained();
-            $table->double('amount_of_surcharge', 12, 6);
-            $table->double('amount_of_currency_purchased', 12, 6);
-            $table->double('amount_paid_in_dollars', 12, 6);
-            $table->double('discount_percentage');
-            $table->double('discount_amount');
+            $table->double('amount_of_surcharge');
+            $table->double('amount_of_currency_purchased');
+            $table->double('amount_paid_in_dollars');
+            $table->double('discount_percentage')->nullable();
+            $table->double('discount_amount')->nullable();
             $table->date('created');
 
             $table->foreign('currency_purchased_id')->references('currency_purchased_id')->on('exchange_rates')->onDelete('cascade');

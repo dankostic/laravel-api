@@ -14,6 +14,6 @@ class SurchargeService implements CalculatorServiceInterface
      */
     public function calculate(float $amount, Currency $currency): float
     {
-        return round($amount * ($currency->surcharge->percentage / 100), 2);
+        return round($amount * ($currency->surcharge->percentage / 100), 6);
     }
 }

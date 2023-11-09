@@ -25,7 +25,7 @@
         <div class="mt-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                 <div>
-                    <form id="exchange-form">
+                    <form id="exchange-form" class="exchange-form" method="post" action="{{ route('store.order') }}">
                         @csrf
                         <div class="flex mb-4">
                             <div class="w-1/2 bg-gray-500 h-12">
@@ -34,7 +34,7 @@
                                 </label>
                                 <select id="on-select" name="selectCurrencyId">
                                     @foreach($purchasedCurrencies as $purchasedCurrency)
-                                        <option value="{{ $purchasedCurrency->id }}">{{ $purchasedCurrency->name }} {{ $purchasedCurrency->code }}</option>
+                                        <option value={{ $purchasedCurrency->id }}>{{ $purchasedCurrency->name }} {{ $purchasedCurrency->code }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -44,11 +44,16 @@
                                 </label>
                                 <input class="input-edit-field" name="amount" type="text">
                             </div>
+                            <input type="hidden" name="paymentCurrencyId" value={{ $paymentCurrency->id }} />
+                            <input type="hidden" id="calculatorAmount" name="calculatorAmount" value="" />
                         </div>
                     </form>
-                    <div id="exchange-info-response"></div>
-                    <button form="exchange-form">Calculate</button>
-                    <div id="exchange-response"></div>
+                    <div class="mt-8" id="exchange-info-response"></div>
+                    <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                    <div class="mt-8" id="exchange-response"></div>
+                    <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                    <button style="display: none" id="exchange-form-id" form="exchange-form">Calculate</button>
+                    <button style="display: none" id="order-form-id" form="order-form">Purchase</button>
                 </div>
             </div>
         </div>
@@ -71,13 +76,14 @@
             },
             success:function(data, textStatus, jqXHR){
                 $("#exchange-info-response").text('1 USD = ' + data.rate + ' (' + data.code + ') ' + '+' +  data.surcharge + '% surcharge');
+                $("#exchange-form-id").show();
             },
             error: function(jqXHR, textStatus, errorThrown){
                 //if fails
             }
         });
     });
-    document.querySelector('#exchange-form').addEventListener('submit', (e) => {
+    document.querySelector('.exchange-form').addEventListener('submit', (e) => {
         e.preventDefault();
         let formData = new FormData(e.target);
         $.ajax({
@@ -89,15 +95,23 @@
             success:function(data, textStatus, jqXHR){
                 if (data.calculatorAmount) {
                     $("#exchange-response").text(data.calculatorAmount + ' (USD)');
-                }
-                else {
+                    $("#exchange-form-id").hide();
+                    $("#order-form-id").show();
+                    $("#calculatorAmount").val(data.calculatorAmount);
+                } else {
                     alert(data.data.amount);
                 }
-
             },
             error: function(jqXHR, textStatus, errorThrown){
             }
         });
+    });
+
+    $('#order-form-id').on('click',function(e) {
+        e.preventDefault;
+        if(confirm('Are you sure you want to purchase?'))
+            $('#exchange-form').submit();
+        return false;
     });
 </script>
 </body>
