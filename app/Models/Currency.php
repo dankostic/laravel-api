@@ -40,4 +40,12 @@ class Currency extends Model
     {
         return $this->hasOne(ExchangeRate::class, 'currency_purchased_id');
     }
+
+    /**
+     * @return HasOne
+     */
+    public function discount(): HasOne
+    {
+        return $this->hasOne(Discount::class);
+    }
 }

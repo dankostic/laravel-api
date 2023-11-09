@@ -32,6 +32,6 @@ class CalculatorService implements CalculatorServiceInterface
         return round($exchangeRateAmount + $this->surchargeService->calculate(
                 $exchangeRateAmount,
                 $currency
-            ), 2);
+            ), 6);
     }
 }

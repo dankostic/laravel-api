@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\CurrencyRepositoryInterface;
-use App\Interfaces\OrderRepositoryInterface;
+use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function __construct(
         private readonly CurrencyRepositoryInterface $currencyRepository,
-        private readonly OrderRepositoryInterface $orderRepository
+        private readonly OrderRepository $orderRepository
     ) {
     }
 
@@ -21,5 +21,13 @@ class OrderController extends Controller
             'paymentCurrency' => $this->currencyRepository->getPaymentCurrency(),
             'purchasedCurrencies' => $this->currencyRepository->getPurchasedCurrencies()
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $this->orderRepository->store(
+            $request,
+            $this->currencyRepository->getPurchasedCurrencyById($request->selectCurrencyId)
+        );
     }
 }
