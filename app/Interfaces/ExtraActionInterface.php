@@ -2,10 +2,13 @@
 
 namespace App\Interfaces;
 
-use App\Models\Currency;
-use Illuminate\Http\Request;
+use App\Models\Order;
 
 interface ExtraActionInterface
 {
-    public function format(Request $request, Currency $currency);
+    /**
+     * @param Order $order
+     * @return void
+     */
+    public function format(Order $order): void;
 }

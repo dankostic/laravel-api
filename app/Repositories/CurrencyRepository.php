@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CurrencyRepository implements CurrencyRepositoryInterface
 {
-    public function getPurchasedCurrencyById(int $id): Currency
+    public function getCurrencyById(int $id): Currency
     {
         return Currency::findOrFail($id);
     }

@@ -20,7 +20,7 @@ class CalculatorController extends Controller
 
     public function info(CalculatorInfoRequest $request): JsonResponse
     {
-        $currency = $this->currencyRepository->getPurchasedCurrencyById($request->id);
+        $currency = $this->currencyRepository->getCurrencyById($request->id);
 
         return response()->json(
             [
@@ -37,7 +37,7 @@ class CalculatorController extends Controller
             [
                 'calculatorAmount' => $this->calculatorService->calculate(
                     $request->amount,
-                    $this->currencyRepository->getPurchasedCurrencyById($request->selectCurrencyId)
+                    $this->currencyRepository->getCurrencyById($request->selectCurrencyId)
                 ),
             ],
             Response::HTTP_OK);

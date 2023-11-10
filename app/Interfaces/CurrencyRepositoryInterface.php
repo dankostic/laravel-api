@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface CurrencyRepositoryInterface
 {
-    public function getPurchasedCurrencyById(int $id): Currency;
+    public function getCurrencyById(int $id): Currency;
 
     public function getPaymentCurrency(): Currency;
 
