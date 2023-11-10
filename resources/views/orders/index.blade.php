@@ -21,14 +21,21 @@
 </head>
 <body class="antialiased">
 <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+
     <div class="max-w-7xl mx-auto p-6 lg:p-8">
+        <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
+            <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-left"></div>
+            <div class="ml-4 text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
+                <a href={{ route('index.exchange') }}>Update exchange rates</a>
+            </div>
+        </div>
         <div class="mt-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                 <div>
                     <form id="exchange-form" class="exchange-form" method="post" action="{{ route('store.order') }}">
                         @csrf
-                        <div class="flex mb-4">
-                            <div class="w-1/2 bg-gray-500 h-12">
+                        <div class="flex mb-4 mr-4">
+                            <div class="w-1/2 bg-gray-500 h-12 mr-4">
                                 <label class="label-edit-field" for="selectCurrency">
                                     Select currency
                                 </label>
@@ -38,7 +45,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="w-1/2 bg-gray-400 h-12">
+                            <div class="w-1/2 bg-gray-400 h-12 ml-4">
                                 <label class="label-edit-field" for="amount">
                                     amount
                                 </label>
