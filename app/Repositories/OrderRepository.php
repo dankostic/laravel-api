@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Http\Factories\ExtraActionFactory;
 use App\Http\Factories\DiscountPercentageFactory;
 use App\Interfaces\OrderRepositoryInterface;
 use App\Models\Currency;
@@ -12,24 +11,21 @@ use App\Services\ExchangeRateService;
 use App\Services\ExtraActionService;
 use App\Services\SurchargeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class OrderRepository implements OrderRepositoryInterface
 {
     public function __construct(
         private readonly ExchangeRateService $exchangeRateService,
         private readonly SurchargeService $surchargeService,
-        private readonly DiscountService $discountService
+        private readonly DiscountService $discountService,
+        private readonly ExtraActionService $extraActionService
     ) {
     }
 
-    public function store(Request $request, Currency $currency)
+    public function store(Request $request, Currency $currency): Order
     {
-        $orderService = new ExtraActionService($request, $currency);
-        $factory = (new DiscountPercentageFactory())
-            ->getCurrency($currency->code)
-            ->percentage($currency);
-
-        Order::insert(
+        $order = Order::create(
             [
                 'currency_id' => $request->paymentCurrencyId,
                 'currency_purchased_id' => $currency->id,
@@ -40,10 +36,18 @@ class OrderRepository implements OrderRepositoryInterface
                 ),
                 'amount_of_currency_purchased' => $request->amount,
                 'amount_paid_in_dollars' => $request->calculatorAmount,
-                'discount_percentage' => $factory,
-                'discount_amount' => $orderService(),
+                'discount_percentage' => (new DiscountPercentageFactory())
+                    ->getCurrency($currency->code)
+                    ->percentage($currency),
+                'discount_amount' => (new DiscountPercentageFactory())
+                    ->getCurrency($currency->code)
+                    ->amount($request, $currency),
                 'created' => date("Y-m-d")
             ]
         );
+        // dd($order->currency->name, $order->currencyPurchased->name, $order->surcharge->percentage, $order->discount->percentage);
+        $this->extraActionService->setAction($order);
+
+        return $order;
     }
 }

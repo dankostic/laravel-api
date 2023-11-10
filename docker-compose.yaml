@@ -75,6 +75,15 @@ services:
       - .:/var/www/html
     networks:
       - laravel_api_network
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: laravel_api_mailhog
+    restart: always
+    networks:
+      - laravel_api_network
+    ports:
+      - "1025:1025"
+      - "8028:8025"
 networks:
   laravel_api_network:
     name: laravel_api_network

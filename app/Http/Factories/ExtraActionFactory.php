@@ -3,10 +3,8 @@
 namespace App\Http\Factories;
 
 use App\Interfaces\ExtraActionInterface;
-use App\Models\Currency;
-use App\Services\DiscountService;
+use App\Models\Order;
 use App\Services\MailService;
-use Illuminate\Http\Request;
 
 class ExtraActionFactory implements ExtraActionInterface
 {
@@ -18,18 +16,13 @@ class ExtraActionFactory implements ExtraActionInterface
     {
         return match ($code) {
             'GBP' => new MailService(),
-            'EUR' => new DiscountService(),
             default => new self,
         };
     }
 
     /**
-     * @param Request $request
-     * @param Currency $currency
-     * @return null
+     * @param Order $order
+     * @return void
      */
-    public function format(Request $request, Currency $currency)
-    {
-        return null;
-    }
+    public function format(Order $order): void {}
 }

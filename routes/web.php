@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [OrderController::class, 'index']);
+Route::get('/', [OrderController::class, 'index'])->name('index.order');
 Route::post('/', [OrderController::class, 'store'])->name('store.order');
-
-
+Route::get('orders/{order}', [OrderController::class, 'show'])->name('show.order');
 

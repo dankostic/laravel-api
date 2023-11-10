@@ -4,11 +4,10 @@ namespace App\Services;
 
 use App\Interfaces\CalculatorServiceInterface;
 use App\Interfaces\DiscountInterface;
-use App\Interfaces\ExtraActionInterface;
 use App\Models\Currency;
 use Illuminate\Http\Request;
 
-class DiscountService implements CalculatorServiceInterface, ExtraActionInterface, DiscountInterface
+class DiscountService implements CalculatorServiceInterface, DiscountInterface
 {
     /**
      * @param float $amount
@@ -21,21 +20,21 @@ class DiscountService implements CalculatorServiceInterface, ExtraActionInterfac
     }
 
     /**
-     * @param Request $request
-     * @param Currency $currency
-     * @return float
-     */
-    public function format(Request $request, Currency $currency): float
-    {
-        return $this->calculate($request->calculatorAmount, $currency);
-    }
-
-    /**
      * @param Currency $currency
      * @return float|null
      */
     public function percentage(Currency $currency): ?float
     {
         return $currency->discount->percentage;
+    }
+
+    /**
+     * @param Request $request
+     * @param Currency $currency
+     * @return float|null
+     */
+    public function amount(Request $request, Currency $currency): ?float
+    {
+        return $this->calculate($request->calculatorAmount, $currency);
     }
 }

@@ -3,14 +3,20 @@
 namespace App\Services;
 
 use App\Interfaces\ExtraActionInterface;
-use App\Models\Currency;
-use Illuminate\Http\Request;
+use App\Mail\OrderDetails;
+use App\Models\Order;
+use Illuminate\Support\Facades\Mail;
 
 class MailService implements ExtraActionInterface
 {
-
-    public function format(Request $request, Currency $currency)
+    /**
+     * @param Order $order
+     * @return void
+     */
+    public function format(Order $order): void
     {
-        return 'Email is sent';
+        Mail::to('info@menu.app')->send(
+            new OrderDetails($order)
+        );
     }
 }

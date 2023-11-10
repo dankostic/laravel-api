@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\CurrencyRepositoryInterface;
+use App\Models\Order;
 use App\Repositories\OrderRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -15,19 +18,37 @@ class OrderController extends Controller
     ) {
     }
 
+    /**
+     * @return View
+     */
     public function index(): View
     {
-        return view('order')->with([
+        return view('orders.index')->with([
             'paymentCurrency' => $this->currencyRepository->getPaymentCurrency(),
             'purchasedCurrencies' => $this->currencyRepository->getPurchasedCurrencies()
         ]);
     }
 
-    public function store(Request $request)
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request): RedirectResponse
     {
-        $this->orderRepository->store(
+        $order = $this->orderRepository->store(
             $request,
-            $this->currencyRepository->getPurchasedCurrencyById($request->selectCurrencyId)
+            $this->currencyRepository->getCurrencyById($request->selectCurrencyId)
         );
+
+        return Redirect::to("orders/$order->id");
+    }
+
+    /**
+     * @param Order $order
+     * @return View
+     */
+    public function show(Order $order): View
+    {
+        return view('orders.show')->with('order', $order);
     }
 }
