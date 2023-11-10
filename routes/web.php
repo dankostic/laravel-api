@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ForeignExchangeController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [OrderController::class, 'index'])->name('index.order');
-Route::post('/', [OrderController::class, 'store'])->name('store.order');
-Route::get('orders/{order}', [OrderController::class, 'show'])->name('show.order');
+Route::controller(OrderController::class)->group(function () {
+    Route::get('/', 'index')->name('index.order');
+    Route::post('/orders', 'store')->name('store.order');
+    Route::get('/orders/{order}', 'show')->name('show.order');
+});
+
+Route::get('foreign-exchange', [ForeignExchangeController::class, 'index'])->name('index.exchange');
 
